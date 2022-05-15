@@ -1,5 +1,5 @@
 {
-    "name": "lpb/cache-plus",
+    "name": "lpb/hyperf-cache-plus",
     "type": "library",
     "license": "MIT",
     "keywords": [
