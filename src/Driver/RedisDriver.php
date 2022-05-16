@@ -20,11 +20,19 @@ class RedisDriver extends Driver implements KeyCollectorInterface
      */
     protected $group;
 
+    /**
+     * @var bool
+     */
+    protected $cacheEmpty = true;
+
     public function __construct(ContainerInterface $container, array $config)
     {
         parent::__construct($container, $config);
 
         $this->group = $config['group'];
+        if (isset($config['cacheEmpty']) && $config['cacheEmpty'] === false) {
+            $this->cacheEmpty = false;
+        }
         $this->redis = $container->get(RedisFactory::class);
     }
 
@@ -50,6 +58,9 @@ class RedisDriver extends Driver implements KeyCollectorInterface
 
     public function set($key, $value, $ttl = null)
     {
+        if (empty($value) && $this->cacheEmpty === false) {
+            return true;
+        }
         $seconds = $this->secondsUntil($ttl);
         $res = $this->packer->pack($value);
         if ($seconds > 0) {

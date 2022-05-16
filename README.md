@@ -46,7 +46,7 @@ use Hyperf\Cache\Annotation\Cacheable;
 class TestService
 {
     /**
-     * @Cacheable(prefix="useRedisCache", ttl=60, listener="user-update", group="commonRedis")
+     * @Cacheable(prefix="useRedisCache", ttl=60, listener="user-update", group="commonRedis_cacheNotEmpty")
      * @param int $id
      * @return array
      */
@@ -89,8 +89,15 @@ return [
     'commonRedis' => [
         'driver' => Hyperf\CachePlus\Driver\RedisDriver::class,
         'packer' => Hyperf\Utils\Packer\PhpSerializerPacker::class,
-        'prefix' => 'c:',
+        'prefix' => 'dpss:',
         'group' => 'commonRedis',
+    ],
+    'commonRedis_cacheNotEmpty' => [
+        'driver' => Hyperf\CachePlus\Driver\RedisDriver::class,
+        'packer' => Hyperf\Utils\Packer\PhpSerializerPacker::class,
+        'prefix' => 'dpss:',
+        'group' => 'commonRedis',
+        'cacheEmpty' => false,
     ],
 ];
 ```
